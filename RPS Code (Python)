@@ -1,0 +1,169 @@
+#setup
+import time
+from random import randint
+playpoints = 0
+item_num = 0
+robot_num = 0
+robot_done = 'False'
+player_done = 'False'
+winner = 'Undefined'
+player_input = 'Undefined'
+
+#game board
+board = "----------VS----------"
+
+#display board
+def board_display(board, item_num, player_input, player_done):
+  print(board)
+  Player_Choose(board, item_num, player_input, player_done)
+
+#player choosing
+def Player_Choose(board, item_num, player_input, player_done):
+  print(board)
+  player_done = 'False'
+  player_input = input("Rock, Paper, or Scissors? " )
+  if player_input == 'Rock':
+    item_num = 1
+    board = "---Rock---VS----------"
+    print(board)
+    player_done = 'True'
+    wait_untilpchooses(board, item_num, robot_num, player_done, robot_done)
+  elif player_input == "Paper":
+    item_num = 2
+    board = "---Paper---VS----------"
+    print(board)
+    player_done = 'True'
+    wait_untilpchooses(board, item_num, robot_num, player_done, robot_done)
+  elif player_input == "Scissors":
+    item_num = 3
+    board = "---Scissors---VS----------"
+    print(board)
+    player_done = 'True'
+    wait_untilpchooses(board, item_num, robot_num, player_done, robot_done)
+  else:
+    print("          Sorry, that is not an excepted choice, please choose Rock, Paper, or Scissors")
+    time.sleep(2)
+    start()
+
+
+
+#robot choosing
+def wait_untilpchooses(board, item_num, robot_num, player_done, robot_done):
+    if item_num == 1 or 2 or 3 and player_done == 'True':
+      robot_done = 'False'
+      print("Robot is selecting Rock, Paper, or Scissors...")
+      time.sleep(2)
+      robot_num = randint(1,3)
+      if robot_num == 1:
+        if item_num == 1:
+          board = "---Rock---VS----Rock--"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+        elif item_num == 2:
+          board = "---Paper---VS----Rock--"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+        else:
+          board = "---Scissors---VS----Rock--"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+
+      if robot_num == 2:
+        if item_num == 1:
+          board = "---Rock---VS----Paper--"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+        elif item_num == 2:
+          board = "---Paper---VS----Paper--"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+        else:
+          board = "---Scissors---VS----Paper-"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+
+      if robot_num == 3:
+        if item_num == 1:
+          board = "---Rock---VS----Scissors---"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+        elif item_num == 2:
+          board = "---Paper---VS---Scissors---"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+        else:
+          board = "---Scissors---VS---Scissors---"
+          robot_done = 'True'
+          print(board)
+          sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input)
+    else:
+      robot_num = 0
+      robot_done = 'False'
+        
+#play sensing
+def sense_numbers(player_done, robot_done, winner, item_num, robot_num, player_input):
+  while player_done or robot_done == "False":
+    if player_done and robot_done == "True":
+      if item_num == 1 and robot_num == 3:
+        winner = "Player"
+        declare(winner, playpoints, player_input, player_done)
+      elif item_num == 1 and robot_num == 2:
+        winner = "Robot"
+        declare(winner, playpoints, player_input, player_done)
+      elif item_num == 1 and robot_num == 1:
+        winner = "Tie"
+        declare(winner, playpoints, player_input, player_done)
+      
+      if item_num == 2 and robot_num == 1:
+        winner = "Player"
+        declare(winner, playpoints, player_input, player_done)
+      elif item_num == 2 and robot_num == 2:
+        winner = "Tie"
+        declare(winner, playpoints, player_input, player_done)
+      elif item_num == 2 and robot_num == 3:
+        winner = "Robot"
+        declare(winner, playpoints, player_input, player_done)
+
+      if item_num == 3 and robot_num == 1:
+        winner = "Robot"
+        declare(winner, playpoints, player_input, player_done)
+      elif item_num == 3 and robot_num == 2:
+        winner = "Player"
+        declare(winner, playpoints, player_input, player_done)
+      elif item_num == 3 and robot_num == 3:
+        winner = "Tie"
+        declare(winner, playpoints, player_input, player_done)
+
+#declare winner
+def declare(winner, playpoints, player_input, player_done):
+  if winner == "Player":
+    print("The Player Wins!")
+    #playpoints = playpoints + 1
+    #print("Current Points:", playpoints)
+    time.sleep(2)
+    start()
+  elif winner == "Robot":
+    print("Robot Wins!")
+    #playpoints = playpoints - 1
+    #print("Current Points:", playpoints)
+    time.sleep(2)
+    start()
+  else:
+    print("It's a tie!")
+    #print(playpoints)
+    time.sleep(2)
+    start()
+
+#starting game
+def start():
+  Player_Choose(board, item_num, player_input, player_done)
+
+start()
