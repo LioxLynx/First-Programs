@@ -1,0 +1,55 @@
+#setup
+import time
+from random import randint
+Current_Num = 0
+Player_Ans = 0
+Correct = 'Undefined'
+Game_State = 'Title'
+Ready = 'Undefined'
+Name = 'Undefined'
+#Points = 0
+
+#start game
+def start(Name):
+  Name = input("What is your name? ")
+  print("Welcome to the number learning game", Name, "!")
+  ready_check(Ready, Player_Ans, Current_Num)
+
+#check ready at start
+def ready_check(Ready, Player_Ans, Current_Num):
+  if Ready == 'Undefined':
+    Ready = input("Are you ready to begin? " )
+    if Ready == 'Yes':
+      print("Beginning...")
+      time.sleep(2)
+      choose_new(Correct, Name, Player_Ans, Current_Num)
+    else:
+      Ready = 'Undefined'
+      ready_check(Ready, Player_Ans, Current_Num)
+  else:
+    print("Now for a new number!")
+    time.sleep(2)
+    Current_Num = 0
+    Player_Ans = 0
+    choose_new(Correct, Name, Player_Ans, Current_Num)
+
+#choose new number
+def choose_new(Correct, Name, Player_Ans, Current_Num):
+  Current_Num = randint(1,10)
+  print(Current_Num)
+  Player_Ans = input("What is this number? ")
+  if float(Player_Ans) == float(Current_Num):
+    print("Correct!")
+    #Points = Points + 1
+    #print("Current Points =", Points)
+    time.sleep(2)
+    Ready = 'Yes'
+    ready_check(Ready, Player_Ans, Current_Num)
+  else:
+    print("Incorect!")
+    #print("Current Points =", Points)
+    time.sleep(2)
+    Ready = 'Undefined'
+    ready_check(Ready, Player_Ans, Current_Num)
+
+start(Name)
